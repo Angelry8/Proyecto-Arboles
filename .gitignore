@@ -15,3 +15,7 @@
 bin/
 obj/
 Thumbs.db
+
+# Documentos internos del equipo (se comparten por fuera del repo)
+ARQUITECTURA.md
+GUIA-EQUIPO.md
