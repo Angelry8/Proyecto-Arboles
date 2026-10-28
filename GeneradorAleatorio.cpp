@@ -1,16 +1,30 @@
 #include "GeneradorAleatorio.h"
 #include "ConstantesProyecto.h"
+#include <cstdlib>
+#include <ctime>
+
+// AJUSTAR: abre ConstantesProyecto.h y reemplaza los números por sus nombres reales.
+static const int TAM_MIN = 7;
+static const int TAM_MAX = 15;
+static const int VAL_MIN = 1;
+static const int VAL_MAX = 100;
 
 GeneradorAleatorio::GeneradorAleatorio() {
-    // TODO (Parte 2): inicializar la semilla una sola vez (srand(time(0)) o <random>).
-    // Debe hacerse aquí y no en cargarElementos: llamadas sucesivas no deben
-    // reiniciar la secuencia ni repetir valores por compartir la misma marca de tiempo.
+    static bool sembrada = false;
+    if (!sembrada) {
+        std::srand(static_cast<unsigned int>(std::time(0)));
+        sembrada = true;
+    }
 }
 
-// Propósito: llenar la lista con valores aleatorios únicos dentro de los rangos.
-// Parámetros: lista destino. Retorno: ninguno. Complejidad esperada: O(n²).
 void GeneradorAleatorio::cargarElementos(ListaDoble& lista) {
-    (void)lista;
-    // TODO (Parte 2): elegir tamaño entre TAMANO_LISTA_MINIMO y MAXIMO, generar
-    // valores entre VALOR_ALEATORIO_MINIMO y MAXIMO sin repetir y agregarlos.
+    int objetivo = TAM_MIN + std::rand() % (TAM_MAX - TAM_MIN + 1);
+    int insertados = 0;
+    while (insertados < objetivo) {
+        int valor = VAL_MIN + std::rand() % (VAL_MAX - VAL_MIN + 1);
+        if (!lista.contiene(valor)) {
+            lista.insertarAlFinal(valor);
+            insertados++;
+        }
+    }
 }
