@@ -4,10 +4,10 @@
 #include <ctime>
 
 // AJUSTAR: abre ConstantesProyecto.h y reemplaza los números por sus nombres reales.
-static const int TAM_MIN = 7;
-static const int TAM_MAX = 15;
-static const int VAL_MIN = 1;
-static const int VAL_MAX = 100;
+static const int TAM_MIN = TAMANO_LISTA_MINIMO;
+static const int TAM_MAX = TAMANO_LISTA_MAXIMO;
+static const int VAL_MIN = VALOR_ALEATORIO_MINIMO;
+static const int VAL_MAX = VALOR_ALEATORIO_MAXIMO;
 
 GeneradorAleatorio::GeneradorAleatorio() {
     static bool sembrada = false;
