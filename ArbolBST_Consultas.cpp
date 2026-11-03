@@ -1,101 +1,201 @@
 #include "ArbolBST.h"
 #include <iostream>
 
+// Propósito: inicializar un nodo del árbol con un valor dado y sin hijos.
+// Parámetros: valor (entero a almacenar).
+// Retorno: ninguno.
+// Complejidad temporal: O(1).
 NodoArbol::NodoArbol(int valor) : dato(valor), izquierdo(0), derecho(0) {}
 
+// Propósito: inicializar un árbol binario de búsqueda vacío.
+// Parámetros: ninguno.
+// Retorno: ninguno.
+// Complejidad temporal: O(1).
 ArbolBST::ArbolBST() : raiz(0) {}
 
-// Auxiliar de Parte 3: inserta recursivamente e ignora duplicados. TODO.
+// Propósito: insertar un valor de forma recursiva respetando el orden del ABB e ignorando duplicados.
+// Parámetros: nodo (referencia al puntero del nodo actual), valor (entero a insertar).
+// Retorno: ninguno.
+// Complejidad temporal: O(h), donde h es la altura del árbol.
 void ArbolBST::insertarRecursivo(NodoArbol*& nodo, int valor) {
-    (void)nodo;
-    (void)valor;
-    // TODO (Parte 3): insertar en el enlace correspondiente o crear el nodo.
+    if (nodo == 0) {
+        nodo = new NodoArbol(valor);
+        return;
+    }
+    if (valor < nodo->dato) {
+        insertarRecursivo(nodo->izquierdo, valor);
+    } else if (valor > nodo->dato) {
+        insertarRecursivo(nodo->derecho, valor);
+    }
+    // Si valor == nodo->dato, se ignora el duplicado según la especificación del ABB.
 }
 
-// Auxiliar de Parte 3: retorna la cantidad del subárbol. TODO.
+// Propósito: contar recursivamente el número total de nodos en un subárbol.
+// Parámetros: nodo (puntero al nodo raíz del subárbol).
+// Retorno: cantidad de nodos presentes en el subárbol (0 si el nodo es nulo).
+// Complejidad temporal: O(n), donde n es el número de nodos del subárbol.
 int ArbolBST::contarNodos(const NodoArbol* nodo) const {
-    (void)nodo;
-    // TODO (Parte 3): contar recursivamente ambos subárboles.
-    return 0;
+    if (nodo == 0) {
+        return 0;
+    }
+    return 1 + contarNodos(nodo->izquierdo) + contarNodos(nodo->derecho);
 }
 
-// Auxiliar de Parte 3: busca el valor y deja su padre en padre. TODO.
+// Propósito: buscar un valor en el ABB y actualizar el puntero a su nodo padre.
+// Parámetros: valor (entero a buscar), padre (referencia a puntero donde se almacena el padre del nodo hallado, o 0 si es raíz o inexistente).
+// Retorno: puntero al nodo encontrado, o 0 si no existe.
+// Complejidad temporal: O(h), donde h es la altura del árbol.
 const NodoArbol* ArbolBST::buscarNodo(int valor, const NodoArbol*& padre) const {
-    (void)valor;
     padre = 0;
-    // TODO (Parte 3): recorrer desde raiz; padre debe ser 0 cuando el hallado es raiz.
+    const NodoArbol* actual = raiz;
+    while (actual != 0) {
+        if (valor == actual->dato) {
+            return actual;
+        }
+        padre = actual;
+        if (valor < actual->dato) {
+            actual = actual->izquierdo;
+        } else {
+            actual = actual->derecho;
+        }
+    }
+    padre = 0;
     return 0;
 }
 
-// Auxiliar de Parte 3: imprime raíz, izquierda y derecha. TODO.
+// Propósito: recorrer recursivamente el subárbol en preorden (raíz, izquierdo, derecho) e imprimir cada dato.
+// Parámetros: nodo (puntero al nodo actual).
+// Retorno: ninguno.
+// Complejidad temporal: O(n), donde n es el número de nodos del subárbol.
 void ArbolBST::preOrdenRecursivo(const NodoArbol* nodo) const {
-    (void)nodo;
-    // TODO (Parte 3): imprimir recursivamente en preorden.
+    if (nodo != 0) {
+        std::cout << nodo->dato << " ";
+        preOrdenRecursivo(nodo->izquierdo);
+        preOrdenRecursivo(nodo->derecho);
+    }
 }
 
-// Auxiliar de Parte 3: imprime izquierda, raíz y derecha. TODO.
+// Propósito: recorrer recursivamente el subárbol en inorden (izquierdo, raíz, derecho) e imprimir cada dato.
+// Parámetros: nodo (puntero al nodo actual).
+// Retorno: ninguno.
+// Complejidad temporal: O(n), donde n es el número de nodos del subárbol.
 void ArbolBST::inOrdenRecursivo(const NodoArbol* nodo) const {
-    (void)nodo;
-    // TODO (Parte 3): imprimir recursivamente en inorden.
+    if (nodo != 0) {
+        inOrdenRecursivo(nodo->izquierdo);
+        std::cout << nodo->dato << " ";
+        inOrdenRecursivo(nodo->derecho);
+    }
 }
 
-// Auxiliar de Parte 3: imprime izquierda, derecha y raíz. TODO.
+// Propósito: recorrer recursivamente el subárbol en postorden (izquierdo, derecho, raíz) e imprimir cada dato.
+// Parámetros: nodo (puntero al nodo actual).
+// Retorno: ninguno.
+// Complejidad temporal: O(n), donde n es el número de nodos del subárbol.
 void ArbolBST::postOrdenRecursivo(const NodoArbol* nodo) const {
-    (void)nodo;
-    // TODO (Parte 3): imprimir recursivamente en postorden.
+    if (nodo != 0) {
+        postOrdenRecursivo(nodo->izquierdo);
+        postOrdenRecursivo(nodo->derecho);
+        std::cout << nodo->dato << " ";
+    }
 }
 
-// Propósito: insertar respetando las comparaciones del ABB. Parámetros: valor.
-// Retorno: ninguno. Complejidad: O(h), h es la altura del árbol.
+// Propósito: insertar un valor en el ABB respetando el orden e ignorando duplicados.
+// Parámetros: valor (entero a insertar).
+// Retorno: ninguno.
+// Complejidad temporal: O(h), donde h es la altura del árbol.
 void ArbolBST::insertar(int valor) {
-    (void)valor;
-    // TODO (Parte 3): insertar en posición ordenada; ignorar duplicados.
+    insertarRecursivo(raiz, valor);
 }
 
-// Propósito: cargar los datos de la lista en orden. Parámetros: lista origen.
-// Retorno: ninguno. Complejidad: O(nh).
+// Propósito: cargar e insertar en el ABB todos los elementos de una ListaDoble en su orden original.
+// Parámetros: lista (referencia constante a la lista doblemente enlazada de origen).
+// Retorno: ninguno.
+// Complejidad temporal: O(nh), donde n es el número de elementos y h la altura del árbol.
 void ArbolBST::cargarDesdeLista(const ListaDoble& lista) {
-    (void)lista;
-    // TODO (Parte 3): recorrer ListaDoble de inicio a fin e insertar cada dato.
+    const NodoDoble* actual = lista.obtenerPrimero();
+    while (actual != 0) {
+        insertar(actual->dato);
+        actual = actual->siguiente;
+    }
 }
 
-// Propósito: contar todos los nodos. Parámetros: ninguno. Retorno: cantidad. O(n).
+// Propósito: retornar la cantidad total de nodos que contiene el árbol.
+// Parámetros: ninguno.
+// Retorno: número entero con la cantidad de nodos (0 si está vacío).
+// Complejidad temporal: O(n).
 int ArbolBST::cantidadNodos() const {
-    // TODO (Parte 3): contar recursivamente desde raiz; vacío debe retornar 0.
-    return 0;
+    return contarNodos(raiz);
 }
 
-// Propósito: buscar y clasificar un nodo. Parámetros: valor. Retorno: existencia. O(h).
+// Propósito: buscar un valor en el árbol, indicar si existe, si es la raíz y si es nodo padre u hoja.
+// Parámetros: valor (entero a buscar).
+// Retorno: true si el elemento existe en el árbol, false en caso contrario.
+// Complejidad temporal: O(h), donde h es la altura del árbol.
 bool ArbolBST::buscar(int valor) const {
-    (void)valor;
-    std::cout << "Búsqueda pendiente de implementar.\n";
-    // TODO (Parte 3): buscar; informar inexistente o raíz y si es padre u hoja.
-    return false;
+    const NodoArbol* padre = 0;
+    const NodoArbol* nodo = buscarNodo(valor, padre);
+
+    if (nodo == 0) {
+        std::cout << "El elemento " << valor << " no existe en el árbol.\n";
+        return false;
+    }
+
+    bool esRaiz = (padre == 0);
+    bool tieneHijos = (nodo->izquierdo != 0 || nodo->derecho != 0);
+
+    std::cout << "El elemento " << valor << " existe en el árbol: ";
+    if (esRaiz) {
+        if (tieneHijos) {
+            std::cout << "es la raíz y es un nodo padre (tiene descendientes).\n";
+        } else {
+            std::cout << "es la raíz (nodo único, hoja sin descendientes).\n";
+        }
+    } else {
+        if (tieneHijos) {
+            std::cout << "es un nodo padre (no es la raíz y tiene al menos un hijo).\n";
+        } else {
+            std::cout << "es un nodo hoja (no tiene hijos).\n";
+        }
+    }
+
+    return true;
 }
 
-// Propósito: imprimir raíz, izquierda y derecha. Parámetros: ninguno. Retorno: ninguno. O(n).
+// Propósito: mostrar el recorrido en preorden (raíz, izquierdo, derecho) de todos los nodos.
+// Parámetros: ninguno.
+// Retorno: ninguno.
+// Complejidad temporal: O(n).
 void ArbolBST::preOrden() const {
     if (raiz == 0) {
         std::cout << "El árbol está vacío.\n";
         return;
     }
-    // TODO (Parte 3): recorrer en preorden e imprimir los valores.
+    preOrdenRecursivo(raiz);
+    std::cout << "\n";
 }
 
-// Propósito: imprimir izquierda, raíz y derecha. Parámetros: ninguno. Retorno: ninguno. O(n).
+// Propósito: mostrar el recorrido en inorden (izquierdo, raíz, derecho), presentando los valores ordenados.
+// Parámetros: ninguno.
+// Retorno: ninguno.
+// Complejidad temporal: O(n).
 void ArbolBST::inOrden() const {
     if (raiz == 0) {
         std::cout << "El árbol está vacío.\n";
         return;
     }
-    // TODO (Parte 3): recorrer en inorden e imprimir los valores.
+    inOrdenRecursivo(raiz);
+    std::cout << "\n";
 }
 
-// Propósito: imprimir izquierda, derecha y raíz. Parámetros: ninguno. Retorno: ninguno. O(n).
+// Propósito: mostrar el recorrido en postorden (izquierdo, derecho, raíz) de todos los nodos.
+// Parámetros: ninguno.
+// Retorno: ninguno.
+// Complejidad temporal: O(n).
 void ArbolBST::postOrden() const {
     if (raiz == 0) {
         std::cout << "El árbol está vacío.\n";
         return;
     }
-    // TODO (Parte 3): recorrer en postorden e imprimir los valores.
+    postOrdenRecursivo(raiz);
+    std::cout << "\n";
 }
