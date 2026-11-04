@@ -66,7 +66,7 @@ private:
     // Retorna la nueva raíz del subárbol luego de la eliminación.
     NodoArbol* eliminarRecursivo(NodoArbol* nodo, int valor, bool& eliminado);
     NodoArbol* minimo(NodoArbol* nodo) const;
-    // Dibujo rotado 90 grados: subárbol derecho arriba e indentación por nivel.
+    // Dibuja un nivel del árbol (raíz arriba): fila de valores y fila de ramas.
     void dibujar(const NodoArbol* nodo, int nivel) const;
 
     ArbolBST(const ArbolBST& otro);

@@ -17,8 +17,16 @@ void Menu::mostrarOpciones() const {
 bool Menu::leerEntero(const char* indicacion, int& valor) const {
     std::cout << indicacion;
     if (std::cin >> valor) {
-        // TODO (Parte 1, Angel): validar que tras el entero solo haya espacios hasta '\n';
-        // descartar el resto de la línea y rechazar basura como "5abc" o "3 4".
+        // Después del número solo puede haber espacios hasta el fin de la línea;
+        // así se rechazan entradas como "5abc" o "3 4".
+        char caracter = 0;
+        while (std::cin.get(caracter) && caracter != '\n') {
+            if (caracter != ' ' && caracter != '\t' && caracter != '\r') {
+                std::cout << "Entrada inválida. Debe escribir un solo número entero.\n";
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                return false;
+            }
+        }
         return true;
     }
     if (std::cin.eof()) {
